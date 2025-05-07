@@ -20,7 +20,7 @@ Before running this project, ensure you have the following installed:
 
 - **PHP**: Version 8.1 or higher
 - **Composer**: Dependency manager for PHP
-- **Node.js**: For managing frontend assets (optional, if applicable)
+- **Livewire**: For managing frontend assets
 - **Database**: MySQL or any other supported database
 - **Laravel**: Version 10.x (installed via Composer)
 
