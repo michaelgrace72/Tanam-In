@@ -4,7 +4,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Laravel</title>
+    <title>Tanam.in</title>
 
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.bunny.net">
@@ -14,8 +14,11 @@
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
 </head>
 
-<body class="min-h-screen bg-gradient-to-t from-white to-[#81e7af]">
-    <x-navbar />
+<body class="min-h-screen bg-gradient-to-b from-[#81e7af] to-white">
+    <x-navbar :links="[
+        ['href' => route('login'), 'label' => 'Login'],
+        ['href' => route('register'), 'label' => 'Register'],
+    ]" :showProfile="false" />
 
     <div class="grid grid-cols-4">
         <!-- Weather Card (Col 1) -->
@@ -31,7 +34,8 @@
                     <p class="font-semibold text-xl text-white">London, UK</p>
                 </div>
                 <div class="flex justify-end items-center">
-                    <img class="w-28 h-28" src="./images/113.png" alt="weather icon" />
+                    <img class="w-28 h-28" src="{{ asset('images/4102326_cloud_sun_sunny_weather_icon.png') }}"
+                        alt="weather icon" />
                 </div>
             </div>
 
@@ -40,7 +44,7 @@
                 class="flex w-full justify-between bg-[#0198afb6] p-3 backdrop-blur-2xl rounded-xl ease-in-out duration-500">
                 <!-- Left: Weather Type -->
                 <div class="flex flex-col justify-start">
-                    <img src="./images/116.png" alt="weather icon" />
+                    <img src="{{ asset('images/4102326_cloud_sun_sunny_weather_icon.png') }}" alt="weather icon" />
                     <p class="font-bold text-4xl text-white">Sunny</p>
                     <p class="font-semibold text-white">clear sky</p>
                 </div>
@@ -78,7 +82,18 @@
         </div>
 
         <div class="col-span-2 bg-white text-lg text-black font-bold rounded-xl text-center mx-5 my-5">
-            02
+            <h1>🌱 Welcome to Tanam.in</h1>
+
+            <h2>Track. Grow. Thrive.</h2>
+
+            <p>Your personal space to monitor your plants, follow helpful guides, set reminders, and keep your green
+                life thriving.
+                Whether you're a seasoned gardener or just getting started, we’re here to help every leaf grow better.
+            </p>
+
+            <br>
+
+            <h4>Let’s grow together — one plant at a time. 🌿</h4>
         </div>
         <div class="bg-white text-black rounded-xl text-center mx-5 my-5 p-5 flex flex-col justify-center items-center">
             <h2 class="text-2xl font-bold mb-4">Get inspired today!!!</h2>
