@@ -13,7 +13,8 @@ class PostsController extends Controller
     public function index()
     {
         $posts = Posts::getAllPosts();
-        return response()->json($posts);
+        // return response()->json($posts);
+        return view('posts.index', compact('posts'));
     }
 
     /**
