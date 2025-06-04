@@ -12,8 +12,10 @@ class UserPlantsController extends Controller
      */
     public function index()
     {
-        $userPlants = UserPlants::getAllUserPlants();
-        return response()->json($userPlants);
+        $user = auth()->user();
+        $userPlants = \App\Models\UserPlants::with('plant')->where('user_id', $user->id)->get();
+        $allPlants = \App\Models\Plants::all();
+        return view('plants.index', compact('userPlants', 'allPlants'));
     }
 
     /**

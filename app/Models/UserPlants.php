@@ -68,4 +68,9 @@ class UserPlants extends Model
         }
         return false;
     }
+
+    public function plant()
+    {
+        return $this->belongsTo(\App\Models\Plants::class, 'plant_id');
+    }
 }
