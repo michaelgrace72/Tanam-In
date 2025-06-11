@@ -10,12 +10,19 @@ class UserPlantsController extends Controller
     /**
      * Display a listing of the user plants.
      */
-    public function index()
+    public function index(Request $request)
     {
         $user = auth()->user();
         $userPlants = \App\Models\UserPlants::with('plant')->where('user_id', $user->id)->get();
-        $allPlants = \App\Models\Plants::all();
-        return view('plants.index', compact('userPlants', 'allPlants'));
+
+        // Jika request dari browser (bukan fetch/ajax), return view
+        if (!$request->wantsJson() && !$request->ajax()) {
+            $allPlants = \App\Models\Plants::all();
+            return view('plants.index', compact('userPlants', 'allPlants'));
+        }
+
+        // Jika request dari fetch/ajax, return JSON
+        return response()->json($userPlants);
     }
 
     /**

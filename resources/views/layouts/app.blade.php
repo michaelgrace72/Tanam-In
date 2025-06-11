@@ -16,6 +16,7 @@
 
         <!-- Styles -->
         @livewireStyles
+        <script src="//unpkg.com/alpinejs" defer></script>
     </head>
     <body class="font-sans antialiased">
         <x-banner />
