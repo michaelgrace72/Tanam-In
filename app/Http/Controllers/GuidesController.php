@@ -10,10 +10,14 @@ class GuidesController extends Controller
     /**
      * Display a listing of the guides.
      */
-    public function index()
+    public function index(\Illuminate\Http\Request $request)
     {
-        $guides = Guides::getAllGuides();
-        return response()->json($guides);
+        // Selalu return JSON jika akses ke /api/*
+        if ($request->is('api/*')) {
+            return response()->json(Guides::all());
+        }
+        // Untuk akses browser, return Blade view
+        return view('guides.index');
     }
 
     /**
