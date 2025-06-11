@@ -117,11 +117,12 @@
     </div>
 
     <script>
-        // function openEditModal(postId, content) {
-        //     document.getElementById('editPostModal').classList.remove('hidden');
-        //     document.getElementById('editContent').value = content;
-        //     document.getElementById('editPostForm').action = '/posts/' + postId;
-        // }
+        function openEditModal(postId, content) {
+            document.getElementById('editPostModal').classList.remove('hidden');
+            document.getElementById('editPostModal').classList.add('flex');
+            document.getElementById('editContent').value = content;
+            document.getElementById('editPostForm').action = '/posts/' + postId;
+        }
         function showModal(id) {
             const modal = document.getElementById(id);
             modal.classList.remove('hidden');
@@ -134,10 +135,10 @@
         }
 
         // Usage:
-        // showModal('postModal');
-        // hideModal('postModal');
-        // showModal('editPostModal');
-        // hideModal('editPostModal');
+        showModal('postModal');
+        hideModal('postModal');
+        showModal('editPostModal');
+        hideModal('editPostModal');
 
         // For your buttons:
         document.getElementById('addPostBtn').onclick = function () { showModal('postModal'); };

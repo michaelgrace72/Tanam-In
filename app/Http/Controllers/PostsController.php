@@ -29,7 +29,14 @@ class PostsController extends Controller
         ]);
 
         $post = Posts::createPost($validatedData);
-        return response()->json($post, 201);
+
+        // Jika request dari API, return JSON
+        if ($request->is('api/*') || $request->wantsJson()) {
+            return response()->json($post, 201);
+        }
+
+        // Jika dari browser (form), redirect ke halaman posts
+        return redirect('/posts')->with('success', 'Post created successfully!');
     }
 
     /**
@@ -56,20 +63,33 @@ class PostsController extends Controller
 
         $post = Posts::updatePost($id, $validatedData);
         if (!$post) {
-            return response()->json(['message' => 'Post not found'], 404);
+            if ($request->is('api/*') || $request->wantsJson()) {
+                return response()->json(['message' => 'Post not found'], 404);
+            }
+            return redirect('/posts')->with('error', 'Post not found!');
         }
-        return response()->json($post);
+
+        if ($request->is('api/*') || $request->wantsJson()) {
+            return response()->json($post);
+        }
+        return redirect('/posts')->with('success', 'Post updated successfully!');
     }
 
     /**
      * Remove the specified post from storage.
      */
-    public function destroy($id)
+    public function destroy($id, Request $request)
     {
         $deleted = Posts::deletePost($id);
         if (!$deleted) {
-            return response()->json(['message' => 'Post not found'], 404);
+            if ($request->is('api/*') || $request->wantsJson()) {
+                return response()->json(['message' => 'Post not found'], 404);
+            }
+            return redirect('/posts')->with('error', 'Post not found!');
         }
-        return response()->json(['message' => 'Post deleted successfully']);
+        if ($request->is('api/*') || $request->wantsJson()) {
+            return response()->json(['message' => 'Post deleted successfully']);
+        }
+        return redirect('/posts')->with('success', 'Post deleted successfully!');
     }
 }
