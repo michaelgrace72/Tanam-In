@@ -15,7 +15,7 @@ class ReminderSeeder extends Seeder
         DB::table('reminders')->insert([
             // Reminders for user_plant_id 1
             [
-                'user_plant_id' => 21,
+                'user_plant_id' => 1,
                 'type' => 'penyiraman',
                 'remind_at' => '2025-05-08',
                 'is_done' => false,
@@ -23,7 +23,7 @@ class ReminderSeeder extends Seeder
                 'updated_at' => now(),
             ],
             [
-                'user_plant_id' => 22,
+                'user_plant_id' => 2,
                 'type' => 'pemupukan',
                 'remind_at' => '2025-05-15',
                 'is_done' => false,
@@ -33,7 +33,7 @@ class ReminderSeeder extends Seeder
 
             // Reminders for user_plant_id 2
             [
-                'user_plant_id' => 23,
+                'user_plant_id' => 3,
                 'type' => 'penyiraman',
                 'remind_at' => '2025-05-09',
                 'is_done' => false,
@@ -41,7 +41,7 @@ class ReminderSeeder extends Seeder
                 'updated_at' => now(),
             ],
             [
-                'user_plant_id' => 24,
+                'user_plant_id' => 4,
                 'type' => 'panen',
                 'remind_at' => '2025-05-20',
                 'is_done' => false,
@@ -51,7 +51,7 @@ class ReminderSeeder extends Seeder
 
             // Reminders for user_plant_id 3
             [
-                'user_plant_id' => 25,
+                'user_plant_id' => 5,
                 'type' => 'penyiraman',
                 'remind_at' => '2025-05-10',
                 'is_done' => false,
@@ -59,7 +59,7 @@ class ReminderSeeder extends Seeder
                 'updated_at' => now(),
             ],
             [
-                'user_plant_id' => 26,
+                'user_plant_id' => 6,
                 'type' => 'pemupukan',
                 'remind_at' => '2025-05-18',
                 'is_done' => false,
@@ -69,7 +69,7 @@ class ReminderSeeder extends Seeder
 
             // Reminders for user_plant_id 4
             [
-                'user_plant_id' => 27,
+                'user_plant_id' => 7,
                 'type' => 'penyiraman',
                 'remind_at' => '2025-05-11',
                 'is_done' => false,
@@ -77,7 +77,7 @@ class ReminderSeeder extends Seeder
                 'updated_at' => now(),
             ],
             [
-                'user_plant_id' => 28,
+                'user_plant_id' => 8,
                 'type' => 'panen',
                 'remind_at' => '2025-05-25',
                 'is_done' => false,
@@ -85,7 +85,7 @@ class ReminderSeeder extends Seeder
                 'updated_at' => now(),
             ],
             [
-                'user_plant_id' => 29,
+                'user_plant_id' => 9,
                 'type' => 'pemupukan',
                 'remind_at' => '2025-05-30',
                 'is_done' => false,
@@ -93,7 +93,7 @@ class ReminderSeeder extends Seeder
                 'updated_at' => now(),
             ],
             [
-                'user_plant_id' => 30,
+                'user_plant_id' => 10,
                 'type' => 'penyiraman',
                 'remind_at' => '2025-05-12',
                 'is_done' => false,

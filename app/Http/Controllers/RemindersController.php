@@ -10,10 +10,15 @@ class RemindersController extends Controller
     /**
      * Display a listing of the reminders.
      */
-    public function index()
+    public function index(\Illuminate\Http\Request $request)
     {
-        $reminders = Reminders::getAllReminders();
-        return response()->json($reminders);
+        // Jika request ke API, selalu return JSON
+        if ($request->is('api/*')) {
+            // Jika ingin relasi, bisa pakai with('userPlant') atau relasi lain
+            return response()->json(\App\Models\Reminders::all());
+        }
+        // Untuk web, return view
+        return view('reminders.index');
     }
 
     /**
