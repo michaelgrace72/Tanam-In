@@ -134,7 +134,7 @@
             e.preventDefault();
             const form = e.target;
             const data = Object.fromEntries(new FormData(form).entries());
-            const res = await fetch('/plants', {
+            const res = await fetch('/api/plants', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
                 body: JSON.stringify(data)
@@ -169,7 +169,7 @@
             const form = e.target;
             const id = document.getElementById('editPlantId').value;
             const data = Object.fromEntries(new FormData(form).entries());
-            const res = await fetch(`/plants/${id}`, {
+            const res = await fetch(`/api/plants/${id}`, {
                 method: 'PUT',
                 headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
                 body: JSON.stringify(data)
@@ -185,7 +185,7 @@
         // Delete Plant
         async function deletePlant(id) {
             if (!confirm('Delete this plant?')) return;
-            const res = await fetch(`/plants/${id}`, {
+            const res = await fetch(`/api/plants/${id}`, {
                 method: 'DELETE',
                 headers: { 'Accept': 'application/json' }
             });
