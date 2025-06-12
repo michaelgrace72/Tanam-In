@@ -91,7 +91,7 @@
         let plants = [];
 
         async function fetchPlants() {
-            const res = await fetch('/api/plants');
+            const res = await fetch('/api/user-plants');
             plants = await res.json();
             renderPlants();
         }

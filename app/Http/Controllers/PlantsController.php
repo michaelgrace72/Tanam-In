@@ -26,11 +26,16 @@ class PlantsController extends Controller
             'scientific_name' => 'nullable|string|max:255',
             'family' => 'nullable|string|max:255',
             'description' => 'nullable|string',
-            'image_url' => 'nullable|url',
+            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
             'planting_method' => 'required|in:tanah,pot,hidroponik',
             'carbon_absorption_rate' => 'nullable|numeric',
             'temp_reduction_rate' => 'nullable|numeric',
         ]);
+
+        if ($request->hasFile('image')) {
+            $imagePath = $request->file('image')->store('plants', 'public');
+            $validatedData['image_url'] = asset('storage/' . $imagePath);
+        }
 
         $plant = Plants::createPlant($validatedData);
         return response()->json($plant, 201);
@@ -58,11 +63,16 @@ class PlantsController extends Controller
             'scientific_name' => 'nullable|string|max:255',
             'family' => 'nullable|string|max:255',
             'description' => 'nullable|string',
-            'image_url' => 'nullable|url',
+            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
             'planting_method' => 'nullable|in:tanah,pot,hidroponik',
             'carbon_absorption_rate' => 'nullable|numeric',
             'temp_reduction_rate' => 'nullable|numeric',
         ]);
+
+        if ($request->hasFile('image')) {
+            $imagePath = $request->file('image')->store('plants', 'public');
+            $validatedData['image_url'] = asset('storage/' . $imagePath);
+        }
 
         $plant = Plants::updatePlant($id, $validatedData);
         if (!$plant) {

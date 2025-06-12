@@ -25,8 +25,13 @@ class PostsController extends Controller
         $validatedData = $request->validate([
             'user_id' => 'required|integer|exists:users,id',
             'content' => 'required|string',
-            'image_path' => 'nullable|string|max:255',
+            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
         ]);
+
+        if ($request->hasFile('image')) {
+            $imagePath = $request->file('image')->store('posts', 'public');
+            $validatedData['image_path'] = asset('storage/' . $imagePath);
+        }
 
         $post = Posts::createPost($validatedData);
 
@@ -58,8 +63,13 @@ class PostsController extends Controller
     {
         $validatedData = $request->validate([
             'content' => 'nullable|string',
-            'image_path' => 'nullable|string|max:255',
+            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
         ]);
+
+        if ($request->hasFile('image')) {
+            $imagePath = $request->file('image')->store('posts', 'public');
+            $validatedData['image_path'] = asset('storage/' . $imagePath);
+        }
 
         $post = Posts::updatePost($id, $validatedData);
         if (!$post) {
