@@ -1,27 +1,4 @@
-{{-- filepath: resources/views/plants/index.blade.php --}}
-<!DOCTYPE html>
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
-
-<head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Tanam.in - Plants</title>
-    <link rel="preconnect" href="https://fonts.bunny.net">
-    <link href="https://fonts.bunny.net/css?family=instrument-sans:400,500,600" rel="stylesheet" />
-    <script src="https://cdn.tailwindcss.com"></script>
-    @vite(['resources/css/app.css', 'resources/js/app.js'])
-    <script src="//unpkg.com/alpinejs" defer></script>
-</head>
-
-<body class="min-h-screen bg-gradient-to-b from-[#81e7af] to-white font-sans antialiased">
-    <x-navbar :links="[
-        ['href' => route('dashboard'), 'label' => 'Dashboard'],
-        ['href' => url('/plants'), 'label' => 'Plants'],
-        ['href' => url('/posts'), 'label' => 'Posts'],
-        ['href' => url('/reminders'), 'label' => 'Reminders'],
-        ['href' => url('/guides'), 'label' => 'Guides'],
-    ]" :showProfile="true" :user="Auth::user()" />
-
+<x-app-layout>
     <div class="container mx-auto py-8 px-4">
         <h1 class="text-2xl font-bold mb-6">Plants</h1>
 
@@ -43,7 +20,7 @@
                 <input type="text" name="scientific_name" placeholder="Scientific Name" class="w-full border rounded p-2 mb-2">
                 <input type="text" name="family" placeholder="Family" class="w-full border rounded p-2 mb-2">
                 <textarea name="description" placeholder="Description" class="w-full border rounded p-2 mb-2"></textarea>
-                <input type="url" name="image_url" placeholder="Image URL" class="w-full border rounded p-2 mb-2">
+                <input type="file" name="image" class="w-full border rounded p-2 mb-2" accept="image/*">
                 <select name="planting_method" class="w-full border rounded p-2 mb-2" required>
                     <option value="">Planting Method</option>
                     <option value="tanah">Tanah</option>
@@ -71,7 +48,7 @@
                 <input type="text" name="scientific_name" id="editPlantScientificName" placeholder="Scientific Name" class="w-full border rounded p-2 mb-2">
                 <input type="text" name="family" id="editPlantFamily" placeholder="Family" class="w-full border rounded p-2 mb-2">
                 <textarea name="description" id="editPlantDescription" placeholder="Description" class="w-full border rounded p-2 mb-2"></textarea>
-                <input type="url" name="image_url" id="editPlantImageUrl" placeholder="Image URL" class="w-full border rounded p-2 mb-2">
+                <input type="file" name="image" id="editPlantImage" class="w-full border rounded p-2 mb-2" accept="image/*">
                 <select name="planting_method" id="editPlantPlantingMethod" class="w-full border rounded p-2 mb-2" required>
                     <option value="">Planting Method</option>
                     <option value="tanah">Tanah</option>
@@ -133,11 +110,10 @@
         document.getElementById('addPlantForm').onsubmit = async function(e) {
             e.preventDefault();
             const form = e.target;
-            const data = Object.fromEntries(new FormData(form).entries());
+            const formData = new FormData(form);
             const res = await fetch('/api/plants', {
                 method: 'POST',
-                headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
-                body: JSON.stringify(data)
+                body: formData
             });
             if (res.ok) {
                 hideModal('addPlantModal');
@@ -168,11 +144,11 @@
             e.preventDefault();
             const form = e.target;
             const id = document.getElementById('editPlantId').value;
-            const data = Object.fromEntries(new FormData(form).entries());
+            const formData = new FormData(form);
             const res = await fetch(`/api/plants/${id}`, {
-                method: 'PUT',
-                headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
-                body: JSON.stringify(data)
+                method: 'POST',
+                headers: { 'Accept': 'application/json' },
+                body: formData
             });
             if (res.ok) {
                 hideModal('editPlantModal');
@@ -198,5 +174,4 @@
 
         fetchPlants();
     </script>
-</body>
-</html>
+</x-app-layout>

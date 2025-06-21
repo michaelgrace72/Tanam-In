@@ -22,8 +22,7 @@
         <x-banner />
 
         <div class="min-h-screen bg-gray-100">
-            @livewire('navigation-menu')
-
+            <x-navbar :showProfile="true" :user="Auth::user()" />
             <!-- Page Heading -->
             @if (isset($header))
                 <header class="bg-white shadow">

@@ -30,7 +30,7 @@ Route::delete('/plants/{id}', [PlantsController::class, 'destroy']);
 //region UserPlants
 use App\Http\Controllers\UserPlantsController;
 
-Route::get('/plants', [UserPlantsController::class, 'index'])->middleware('auth');
+Route::get('/user-plants', [UserPlantsController::class, 'index'])->middleware('auth');
 Route::post('/user-plants', [UserPlantsController::class, 'store'])->middleware('auth');
 Route::delete('/user-plants/{id}', [UserPlantsController::class, 'destroy'])->middleware('auth');
 

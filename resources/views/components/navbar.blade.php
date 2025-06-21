@@ -1,17 +1,24 @@
 @props([
-    'links' => [],
     'showProfile' => false,
     'user' => null,
 ])
 
+@php
+    $links = [
+        ['href' => route('dashboard'), 'label' => 'Dashboard'],
+        ['href' => url('/user-plants'), 'label' => 'My Plants'],
+        ['href' => url('/posts'), 'label' => 'Posts'],
+        ['href' => url('/reminders'), 'label' => 'Reminders'],
+        ['href' => url('/guides'), 'label' => 'Guides'],
+    ];
+@endphp
+
 <nav class="bg-[#005247] px-4 py-3 flex justify-between items-center">
     <div class="flex items-center space-x-8">
         <span class="text-white font-bold text-xl">Tanam.in</span>
-        @if($showProfile)
-            @foreach ($links as $link)
-                <a href="{{ $link['href'] }}" class="text-white hover:underline">{{ $link['label'] }}</a>
-            @endforeach
-        @endif
+        @foreach ($links as $link)
+            <a href="{{ $link['href'] }}" class="text-white hover:underline">{{ $link['label'] }}</a>
+        @endforeach
     </div>
     <div class="flex items-center space-x-4">
         @if ($showProfile && $user)

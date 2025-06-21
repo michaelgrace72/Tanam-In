@@ -1,26 +1,4 @@
-<!DOCTYPE html>
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
-
-<head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Reminders - Tanam.in</title>
-    <link rel="preconnect" href="https://fonts.bunny.net">
-    <link href="https://fonts.bunny.net/css?family=instrument-sans:400,500,600" rel="stylesheet" />
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script src="//unpkg.com/alpinejs" defer></script>
-    @vite(['resources/css/app.css', 'resources/js/app.js'])
-</head>
-
-<body class="min-h-screen bg-gradient-to-b from-[#81e7af] to-white font-sans antialiased">
-    <x-navbar :links="[
-        ['href' => route('dashboard'), 'label' => 'Dashboard'],
-        ['href' => url('/plants'), 'label' => 'Plants'],
-        ['href' => url('/posts'), 'label' => 'Posts'],
-        ['href' => url('/reminders'), 'label' => 'Reminders'],
-        ['href' => url('/guides'), 'label' => 'Guides'],
-    ]" :showProfile="true" :user="Auth::user()" />
-
+<x-app-layout>
     <div class="container mx-auto py-8 px-4">
         <h1 class="text-2xl font-bold mb-6">Reminders</h1>
         <button onclick="showModal('addReminderModal')"
@@ -29,7 +7,8 @@
     </div>
 
     <!-- Add Reminder Modal -->
-    <div id="addReminderModal" class="fixed inset-0 bg-black bg-opacity-40 items-center justify-center z-50 hidden">
+    <div id="addReminderModal"
+        class="fixed inset-0 bg-black bg-opacity-40 items-center justify-center z-50 hidden">
         <div class="bg-white rounded-lg shadow-lg w-full max-w-md p-6 relative">
             <button class="absolute top-2 right-2 text-gray-500 hover:text-gray-700 text-2xl"
                 onclick="hideModal('addReminderModal')">&times;</button>
@@ -54,7 +33,8 @@
     </div>
 
     <!-- Edit Reminder Modal -->
-    <div id="editReminderModal" class="fixed inset-0 bg-black bg-opacity-40 items-center justify-center z-50 hidden">
+    <div id="editReminderModal"
+        class="fixed inset-0 bg-black bg-opacity-40 items-center justify-center z-50 hidden">
         <div class="bg-white rounded-lg shadow-lg w-full max-w-md p-6 relative">
             <button class="absolute top-2 right-2 text-gray-500 hover:text-gray-700 text-2xl"
                 onclick="hideModal('editReminderModal')">&times;</button>
@@ -75,7 +55,7 @@
                     required>
                 <div class="flex justify-end">
                     <button type="submit"
-                        class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">Update</button>
+                        class="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600">Save</button>
                 </div>
             </form>
         </div>
@@ -84,11 +64,6 @@
     <script>
         let reminders = [];
         let userPlants = [];
-
-        async function fetchPlants() {
-            const res = await fetch('/api/plants');
-            plants = await res.json();
-        }
 
         async function fetchReminders() {
             const res = await fetch('/api/reminders');
@@ -100,40 +75,26 @@
             const container = document.getElementById('reminder-list');
             container.innerHTML = '';
             if (reminders.length === 0) {
-                container.innerHTML = `<div class="col-span-2 text-center text-gray-500">No reminders found.</div>`;
+                container.innerHTML = '<div class="col-span-2 text-center text-gray-500">No reminders yet.</div>';
                 return;
             }
             reminders.forEach(reminder => {
-                // Find the plant by plant_id (adjust if your reminder has user_plant_id -> plant_id)
-                let plantName = '-';
-                if (reminder.plant_id) {
-                    const plant = plants.find(p => p.id == reminder.plant_id);
-                    plantName = plant ? plant.name : '-';
-                } else if (reminder.user_plant_id) {
-                    // If reminder only has user_plant_id, you need to fetch userPlants with plant relation
-                    // Or adjust your backend to include plant_id in reminders
-                    plantName = `User Plant #${reminder.user_plant_id}`;
-                }
                 container.innerHTML += `
-            <div class="bg-white rounded-lg shadow-md p-4 flex flex-col">
-                <div class="mb-2">
-                    <span class="font-semibold">Plant:</span> ${plantName}
-                </div>
-                <div class="mb-2">
-                    <span class="font-semibold">Type:</span> ${reminder.type}
-                </div>
-                <div class="mb-2">
-                    <span class="font-semibold">Remind At:</span> ${reminder.remind_at}
-                </div>
-                <div class="mb-2">
-                    <span class="font-semibold">Status:</span> ${reminder.is_done ? 'Done' : 'Pending'}
-                </div>
-                <div class="flex gap-2 mt-2">
-                    <button onclick="openEditReminderModal(${reminder.id})" class="bg-blue-500 text-white px-3 py-1 rounded">Edit</button>
-                    <button onclick="deleteReminder(${reminder.id})" class="bg-red-500 text-white px-3 py-1 rounded">Delete</button>
-                </div>
-            </div>
-        `;
+                    <div class="bg-white rounded-lg shadow-md p-4 flex flex-col">
+                        <div class="flex justify-between items-center mb-2">
+                            <span class="font-semibold">${reminder.type.charAt(0).toUpperCase() + reminder.type.slice(1)}</span>
+                            <div class="flex gap-2">
+                                <button onclick="openEditReminderModal(${reminder.id})" class="text-blue-500 hover:underline">Edit</button>
+                                <button onclick="deleteReminder(${reminder.id})" class="text-red-500 hover:underline">Delete</button>
+                            </div>
+                        </div>
+                        <div class="text-gray-600 text-sm mb-1">Plant: ${reminder.user_plant_name || '-'}</div>
+                        <div class="text-gray-600 text-sm mb-1">Remind At: ${reminder.remind_at}</div>
+                        <span class="inline-block px-3 py-1 rounded-full text-xs font-semibold ${reminder.is_done ? 'bg-green-200 text-green-800' : 'bg-yellow-200 text-yellow-800'}">
+                            ${reminder.is_done ? 'Done' : 'Pending'}
+                        </span>
+                    </div>
+                `;
             });
         }
 
@@ -153,10 +114,16 @@
             addSelect.innerHTML = '<option value="">Select Your Plant</option>';
             editSelect.innerHTML = '<option value="">Select Your Plant</option>';
             userPlants.forEach(up => {
-                const plantName = up.plant ? up.plant.name : 'Plant #' + up.id;
-                addSelect.innerHTML += `<option value="${up.id}">${plantName}</option>`;
-                editSelect.innerHTML += `<option value="${up.id}">${plantName}</option>`;
+                addSelect.innerHTML += `<option value="${up.id}">${up.plant_name || up.name}</option>`;
+                editSelect.innerHTML += `<option value="${up.id}">${up.plant_name || up.name}</option>`;
             });
+        }
+
+        // Fetch user's plants for select options
+        async function fetchUserPlants() {
+            const res = await fetch('/api/user-plants');
+            userPlants = await res.json();
+            populatePlantSelects();
         }
 
         // Add Reminder
@@ -167,13 +134,13 @@
             data.is_done = false;
             const res = await fetch('/api/reminders', {
                 method: 'POST',
-                headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+                headers: { 'Content-Type': 'application/json', 'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content },
                 body: JSON.stringify(data)
             });
             if (res.ok) {
                 hideModal('addReminderModal');
-                form.reset();
                 fetchReminders();
+                form.reset();
             } else {
                 alert('Failed to add reminder.');
             }
@@ -197,7 +164,7 @@
             const data = Object.fromEntries(new FormData(form).entries());
             const res = await fetch(`/api/reminders/${id}`, {
                 method: 'PUT',
-                headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+                headers: { 'Content-Type': 'application/json', 'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content },
                 body: JSON.stringify(data)
             });
             if (res.ok) {
@@ -213,7 +180,7 @@
             if (!confirm('Delete this reminder?')) return;
             const res = await fetch(`/api/reminders/${id}`, {
                 method: 'DELETE',
-                headers: { 'Accept': 'application/json' }
+                headers: { 'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content }
             });
             if (res.ok) {
                 fetchReminders();
@@ -224,10 +191,8 @@
 
         // Initial load
         (async function () {
-            await fetchPlants();
+            await fetchUserPlants();
             await fetchReminders();
         })();
     </script>
-</body>
-
-</html>
+</x-app-layout>
