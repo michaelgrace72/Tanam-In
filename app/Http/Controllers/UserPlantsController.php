@@ -13,12 +13,12 @@ class UserPlantsController extends Controller
     public function index(Request $request)
     {
         $user = auth()->user();
-        $userPlants = \App\Models\UserPlants::with('plant')->where('user_id', $user->id)->get();
+        $userPlants = UserPlants::with('plant')->where('user_id', $user->id)->get();
 
-        // Jika request dari browser (bukan fetch/ajax), return view
+        // Jika request dari browser (bukan fetch/ajax), return user_plants view
         if (!$request->wantsJson() && !$request->ajax()) {
             $allPlants = \App\Models\Plants::all();
-            return view('plants.index', compact('userPlants', 'allPlants'));
+            return view('user_plants.index', compact('userPlants', 'allPlants'));
         }
 
         // Jika request dari fetch/ajax, return JSON
@@ -31,7 +31,7 @@ class UserPlantsController extends Controller
     public function store(Request $request)
     {
         $validatedData = $request->validate([
-            'user_id' => 'required|integer|exists:users,id',
+            // user_id is set automatically from the authenticated user
             'plant_id' => 'required|integer|exists:plants,id',
             'area_size' => 'nullable|numeric',
             'location' => 'nullable|string|max:255',
@@ -39,7 +39,14 @@ class UserPlantsController extends Controller
             'status' => 'required|in:ditanam,panen,mati',
         ]);
 
+        $validatedData['user_id'] = auth()->id(); // Always use the logged-in user
+
         $userPlant = UserPlants::createUserPlant($validatedData);
+
+        // Redirect back to the user plants page with a success message if not an API request
+        if (!$request->wantsJson() && !$request->ajax()) {
+            return redirect('/user-plants')->with('success', 'Plant added to your list!');
+        }
         return response()->json($userPlant, 201);
     }
 

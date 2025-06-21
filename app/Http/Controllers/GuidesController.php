@@ -10,7 +10,7 @@ class GuidesController extends Controller
     /**
      * Display a listing of the guides.
      */
-    public function index(\Illuminate\Http\Request $request)
+    public function index(Request $request)
     {
         // Selalu return JSON jika akses ke /api/*
         if ($request->is('api/*')) {
