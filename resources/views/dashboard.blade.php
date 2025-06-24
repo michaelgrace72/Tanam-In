@@ -1,42 +1,62 @@
-<!DOCTYPE html>
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
-
-<head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Tanam.in</title>
-    <link rel="preconnect" href="https://fonts.bunny.net">
-    <link href="https://fonts.bunny.net/css?family=instrument-sans:400,500,600" rel="stylesheet" />
-    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
-    @vite(['resources/css/app.css', 'resources/js/app.js'])
-    @livewireStyles
-</head>
-
-<body class="min-h-screen bg-gradient-to-b from-[#81e7af] to-white font-sans antialiased">
-
-    <!-- Navbar for authenticated user -->
-    <nav class="bg-white shadow mb-8">
-        <div class="container mx-auto px-4 py-3 flex items-center justify-between">
-            <div class="flex items-center gap-4">
-                <a href="/dashboard" class="text-xl font-bold text-green-600 hover:text-green-800">Tanam.in</a>
-                <a href="/user-plants" class="text-gray-700 hover:text-green-600 px-3 py-2 rounded transition">Plants</a>
-                <a href="/posts" class="text-gray-700 hover:text-green-600 px-3 py-2 rounded transition">Posts</a>
-                <a href="/reminders" class="text-gray-700 hover:text-green-600 px-3 py-2 rounded transition">Reminders</a>
-                <a href="/guides" class="text-gray-700 hover:text-green-600 px-3 py-2 rounded transition">Guides</a>
+<x-app-layout>
+    <div class="container mx-auto px-4 py-8">
+        <div class="grid grid-cols-4 gap-6">
+            <!-- Weather Card (Col 1) -->
+            <div class="col-span-1 text-lg text-black font-bold rounded-xl text-center h-40">
+                <!-- Current Weather Summary -->
+                <div class="p-5 w-4/5 flex justify-between rounded-3xl shadow-2xl cursor-pointer transform ease-in-out bg-white/20 duration-500 backdrop-blur-sm hover:scale-[105%] mx-auto">
+                    <div class="flex flex-col">
+                        <div class="mb-6">
+                            <p class="font-bold text-5xl text-white">24°C</p>
+                            <p class="font-semibold text-md text-white">Now</p>
+                        </div>
+                        <p class="font-semibold text-xl text-white">London, UK</p>
+                    </div>
+                    <div class="flex justify-end items-center">
+                        <img class="w-28 h-28" src="{{ asset('images/4102326_cloud_sun_sunny_weather_icon.png') }}" alt="weather icon" />
+                    </div>
+                </div>
+                <!-- Weather Details Section -->
+                <div class="flex w-full justify-between bg-[#0198afb6] p-3 backdrop-blur-2xl rounded-xl ease-in-out duration-500 mt-4">
+                    <!-- Left: Weather Type -->
+                    <div class="flex flex-col justify-start">
+                        <img src="{{ asset('images/4102326_cloud_sun_sunny_weather_icon.png') }}" alt="weather icon" />
+                        <p class="font-bold text-4xl text-white">Sunny</p>
+                        <p class="font-semibold text-white">clear sky</p>
+                    </div>
+                    <!-- Right: Weather Metrics -->
+                    <div class="w-1/2 flex flex-col space-y-2">
+                        <!-- Temperature -->
+                        <div class="flex justify-around items-center bg-white/30 rounded-lg p-1 gap-6">
+                            <ion-icon class="w-8 h-8 text-white" name="thermometer"></ion-icon>
+                            <div>
+                                <p class="font-bold text-2xl text-[#ff5a00] text-right">26.08 °C</p>
+                                <p class="text-sm text-white text-right">Temperature</p>
+                            </div>
+                        </div>
+                        <!-- Wind Speed -->
+                        <div class="flex justify-around items-center bg-white/30 rounded-lg p-1 gap-6">
+                            <ion-icon class="w-8 h-8 text-white" name="speedometer"></ion-icon>
+                            <div>
+                                <p class="font-bold text-2xl text-[#ff5a00] text-right">1.18 m/s</p>
+                                <p class="text-sm text-white text-right">Wind</p>
+                            </div>
+                        </div>
+                        <!-- Humidity -->
+                        <div class="flex justify-around items-center bg-white/30 rounded-lg p-1 gap-6">
+                            <ion-icon class="w-8 h-8 text-white" name="rainy"></ion-icon>
+                            <div>
+                                <p class="font-bold text-2xl text-[#ff5a00] text-right">89 %</p>
+                                <p class="text-sm text-white text-right">Humidity</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
-            <div class="flex items-center gap-4">
-                <span class="text-gray-600 font-medium">{{ Auth::user()->name }}</span>
-                <img src="{{ Auth::user()->profile_photo_url }}" alt="Profile" class="w-8 h-8 rounded-full border">
-                <form method="POST" action="{{ route('logout') }}">
-                    @csrf
-                    <button type="submit" class="ml-2 text-red-500 hover:text-red-700 font-semibold">Logout</button>
-                </form>
+            <!-- ...existing dashboard content (col-span-3 or other columns)... -->
+            <div class="col-span-3 flex items-center justify-center">
+                <h1 class="text-3xl font-bold">hi</h1>
             </div>
         </div>
-    </nav>
-
-    hi
-    @livewireScripts
-</body>
-
-</html>
+    </div>
+</x-app-layout>
