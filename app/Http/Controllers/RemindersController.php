@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Reminders;
 use Illuminate\Http\Request;
+use App\Models\UserPlants;
 
 class RemindersController extends Controller
 {
@@ -14,11 +15,18 @@ class RemindersController extends Controller
     {
         // Jika request ke API, selalu return JSON
         if ($request->is('api/*')) {
-            // Jika ingin relasi, bisa pakai with('userPlant') atau relasi lain
             return response()->json(Reminders::all());
         }
-        // Untuk web, return view
-        return view('reminders.index');
+        // Untuk web, ambil reminders dan userPlants untuk user yang sedang login
+        $user = auth()->user();
+        $userPlants = \App\Models\UserPlants::with('plant')->where('user_id', $user->id)->get();
+        $reminders = \App\Models\Reminders::with(['userPlant.plant'])
+            ->whereHas('userPlant', function($q) use ($user) {
+                $q->where('user_id', $user->id);
+            })
+            ->orderBy('remind_at', 'asc')
+            ->get();
+        return view('reminders.index', compact('reminders', 'userPlants'));
     }
 
     /**

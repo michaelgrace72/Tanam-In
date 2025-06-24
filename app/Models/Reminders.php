@@ -66,4 +66,8 @@ class Reminders extends Model
         }
         return false;
     }
+    public function userPlant()
+    {
+        return $this->belongsTo(\App\Models\UserPlants::class, 'user_plant_id');
+    }
 }
